@@ -1,0 +1,36 @@
+{
+	"GlobalConfiguration": {
+		"RequestIdKey": "X-Correlation-Id",
+		"BaseUrl": "http://localhost:5164"
+	},
+  "Routes": [
+		{
+			"DownstreamPathTemplate": "/api/WeatherForecast",
+			"DownstreamScheme": "http",
+			"DownstreamHostAndPorts": [
+				{
+					"Host": "localhost",
+					"Port": "5244"
+				}
+			],
+			"UpstreamPathTemplate": "/api/WeatherForecast",
+			"UpstreamHttpMethod": [
+				"GET"
+			]
+		},
+		{
+			"DownstreamPathTemplate": "/api/BookStore",
+			"DownstreamScheme": "http",
+			"DownstreamHostAndPorts": [
+				{
+					"Host": "localhost",
+					"Port": "5252"
+				}
+			],
+			"UpstreamPathTemplate": "/api/BookStore",
+			"UpstreamHttpMethod": [
+				"GET"
+			]
+		}
+  ]
+}
