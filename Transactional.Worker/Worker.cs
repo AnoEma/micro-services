@@ -1,5 +1,4 @@
 using Transactional.Worker.BookStore;
-using Transactional.Worker.Event;
 
 namespace Transactional.Worker;
 

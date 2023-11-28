@@ -1,19 +1,22 @@
-﻿using MassTransit;
+﻿using Transactional.Worker.Event;
 
 namespace Transactional.Worker.BookStore;
 
-public sealed class BookStoreCreatedEventConsumer : IConsumer<BookStoreEvent>
+public sealed class BookStoreCreatedEventConsumer : IBookStoreCreatedEventConsumer
 {
     private readonly ILogger<BookStoreCreatedEventConsumer> _logger;
+    private readonly IEventBus _bus;
 
-    public BookStoreCreatedEventConsumer(ILogger<BookStoreCreatedEventConsumer> logger)
+    public BookStoreCreatedEventConsumer(ILogger<BookStoreCreatedEventConsumer> logger, IEventBus bus)
     {
         _logger = logger;
+        _bus = bus;
     }
-    Task IConsumer<BookStoreEvent>.Consume(ConsumeContext<BookStoreEvent> context)
-    {
-        _logger.LogInformation($"Event Bookstore {context.Message}");
 
-        return Task.CompletedTask;
+    public Task<BookStoreEvent> GetBookstore()
+    {
+        var message = _bus.consummerAsync();
+        
+        throw new NotImplementedException();
     }
 }
