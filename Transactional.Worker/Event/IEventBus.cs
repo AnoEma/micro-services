@@ -2,7 +2,7 @@
 
 public interface IEventBus
 {
-    Task consummerAsync();
+    Task<T> consummerAsync<T>() where T: class;
     Task publishAsync<T>(T message, CancellationToken cancellationToken = default)
     where T: class;
 }

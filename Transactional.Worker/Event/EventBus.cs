@@ -1,61 +1,43 @@
-﻿using System.Text;
-using System.Text.Json;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
+using Serializations;
+using Transactional.Worker.Client;
 
 namespace Transactional.Worker.Event;
 
 public sealed class EventBus : IEventBus
 {
-    private IModel _publishEndpoint;
+    private readonly IRabbitMQSettings _busSettings;
+    private readonly ISerializationObject _serializer;
 
-    public EventBus()
+    public EventBus(IRabbitMQSettings busSettings, ISerializationObject serializer)
     {
-        ConfigRabbit();
+        _busSettings = busSettings;
+        _serializer = serializer;
     }
 
-    public Task consummerAsync()
+    public Task<T> consummerAsync<T>() where T : class
     {
-        var result = _publishEndpoint.BasicGet(queue : "bookstore.event.queue", true);
-        
-        if(result is null)
+        var _bus = _busSettings.Create();
+
+        if (_bus is null)
         {
-            return Task.CompletedTask;
         }
 
-        var properties = result.BasicProperties;
-        var body = result.Body;
-
-        return Task.CompletedTask;
+        var consumer = _bus.BasicGet("bookstore.event.queue", autoAck: true);
+        var message = _serializer.DeserializerByte<T>(consumer.Body.ToArray());
+        return Task.FromResult(message);
     }
 
     public Task publishAsync<T>(T message, CancellationToken cancellationToken = default) where T : class
     {
-        var jsonString = JsonSerializer.Serialize(message);
-        byte[] messageBodyBytes = Encoding.UTF8.GetBytes(jsonString);
+        var _bus = _busSettings.Create();
 
-        _publishEndpoint.BasicPublish("bookstore.event.exchange", "bookstore.event.routingkey", body: messageBodyBytes);
-
-        return Task.CompletedTask;
-    }
-
-    private IModel ConfigRabbit()
-    {
-        var factory = new ConnectionFactory()
+        if (_bus is not null)
         {
-            HostName = "localhost",
-            UserName = "guest",
-            Password = "guest",
-            VirtualHost = "/"
-        };
+            var messageBody = _serializer.SerializerByte(message);
 
-        var conn = factory.CreateConnection();
-        _publishEndpoint = conn.CreateModel();
-        _publishEndpoint.QueueDeclare(
-            queue: "bookstore.event.queue", 
-            durable: true, 
-            exclusive: false, 
-            autoDelete: false);
-
-        return _publishEndpoint;
+            _bus.BasicPublish("bookstore.event.exchange", "bookstore.event.routingkey", body: messageBody);
+        }
+        return Task.CompletedTask;
     }
 }
