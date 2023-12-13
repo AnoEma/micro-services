@@ -17,14 +17,15 @@ public sealed class EventBus : IEventBus
 
     public Task<T> consummerAsync<T>() where T : class
     {
+        T? message = null;
         var _bus = _busSettings.Create();
 
-        if (_bus is null)
+        if (_bus is not null)
         {
+            var consumer = _bus.BasicGet("bookstore.event.queue", autoAck: true);
+            message = _serializer.DeserializerByte<T>(consumer.Body.ToArray());
+            return Task.FromResult(message);
         }
-
-        var consumer = _bus.BasicGet("bookstore.event.queue", autoAck: true);
-        var message = _serializer.DeserializerByte<T>(consumer.Body.ToArray());
         return Task.FromResult(message);
     }
 

@@ -1,6 +1,8 @@
-﻿using Transactional.Worker.BookStore;
+﻿using Serializations;
+using Transactional.Worker.BookStore;
 using Transactional.Worker.Client;
 using Transactional.Worker.Event;
+using Transactional.Worker.Services;
 
 namespace Transactional.Worker;
 
@@ -19,9 +21,12 @@ public static class WorkerModuleDependency
 
     private static void AddInfraModule(IServiceCollection services)
     {
-        services.AddTransient<ICreateBookStoreCommandHandler, CreateBookStoreCommandHandler>();
-        services.AddTransient<IBookStoreCreatedEventConsumer, BookStoreCreatedEventConsumer>();
-        
-        services.AddTransient<IEventBus, EventBus>();
+        services.AddScoped<ICreateBookStoreCommandHandler, CreateBookStoreCommandHandler>();
+        services.AddScoped<IBookStoreCreatedEventConsumer, BookStoreCreatedEventConsumer>();
+
+        services.AddScoped<IBookstoreProcessingService, BookstoreProcessingService>();
+
+        services.AddScoped<IEventBus, EventBus>();
+        services.AddScoped<ISerializationObject, SerializationObject>();
     }
 }
