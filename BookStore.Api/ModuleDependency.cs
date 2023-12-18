@@ -16,7 +16,7 @@ public static class ModuleDependency
 
     private static void AddDataContext(IServiceCollection services)
     {
-        services.AddDbContext<BookStoreContext>(opt => opt.UseInMemoryDatabase(""));
+        services.AddDbContext<BookStoreContext>(opt => opt.UseInMemoryDatabase("Server=localhost,1455;Database=bookstore-api-db;User ID=sa;Password=Admin@123"));
     }
 
     private static void AddServices(IServiceCollection services)
