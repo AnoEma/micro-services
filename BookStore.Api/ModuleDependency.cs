@@ -26,6 +26,6 @@ public static class ModuleDependency
 
     private static void AddRepositories(IServiceCollection services)
     {
-        services.AddScoped<IBookStoreRepository, IBookStoreRepository>();
+        services.AddScoped<IBookStoreRepository, BookStoreRepository>();
     }
 }

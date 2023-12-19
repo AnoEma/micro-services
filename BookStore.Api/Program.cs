@@ -1,5 +1,4 @@
 using BookStore.Api;
-using BookStore.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

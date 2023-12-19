@@ -4,5 +4,8 @@ namespace BookStore.Api.Services;
 
 public interface IBookStoreService
 {
-   public Task<List<BookStores>> GetAll();
+    Task<List<BookStores>> GetAll();
+    Task<BookStores> GetById(Guid id);
+    Task Create(BookStores entity);
+    Task Update(BookStores entity);
 }

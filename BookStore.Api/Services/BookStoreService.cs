@@ -1,30 +1,60 @@
 ﻿using BookStore.Api.Model;
+using BookStore.Api.Repositories;
 
 namespace BookStore.Api.Services;
 
 public class BookStoreService : IBookStoreService
 {
-    private readonly List<BookStores> bookStores = new List<BookStores>();
+    private readonly IBookStoreRepository _repository;
+    private readonly ILogger _logger;
 
-    public BookStoreService()
+    public BookStoreService(IBookStoreRepository repository, ILogger logger)
     {
-        bookStores.Add(new BookStores
-        {
-            Id = Guid.NewGuid(),
-            Name = "Casa branca",
-            CPF = "000.000.000-21",
-            Address = "Rua Congonhas de sertão",
-            Books = new List<Book>(){
-                    new Book{
-                            Id = Guid.NewGuid(),
-                            Name = "Harry Potter",
-                            Price = 200
-                    }
-            },
-        });
+        _repository = repository;
+        _logger = logger;
     }
-    public Task<List<BookStores>> GetAll()
+
+    public async Task Create(BookStores entity)
     {
-        return Task.FromResult(bookStores);
+        var dto = new BookStoresDTO(entity.Name, entity.CPF, entity.Address, entity.Books);
+
+       await _repository.Create(dto);
+    }
+
+    public async Task<List<BookStores>> GetAll()
+    {
+        var result = new List<BookStores>();
+        
+        var getBookstores = await  _repository.GetAll();
+        if(!getBookstores.Any())
+        {
+            _logger.LogInformation("Don't have bookstore");
+            return result;
+        }
+        return result;
+    }
+
+    public async Task<BookStores> GetById(Guid id)
+    {
+        var getBookstore = await _repository.GetById(id);
+        if(getBookstore is null)
+        {
+            _logger.LogInformation("Don't have registre");
+            return null;
+        }
+        return new BookStores(getBookstore);
+    }
+
+    public async Task Update(BookStores entity)
+    {
+        var getBookstore = await _repository.GetById(entity.Id);
+        if (getBookstore is null)
+        {
+            _logger.LogInformation("Don't have registre");
+            return;
+        }
+
+        var dto = new BookStoresDTO(entity.Name, entity.CPF, entity.Address, entity.Books);
+        await _repository.Update(dto);
     }
 }
