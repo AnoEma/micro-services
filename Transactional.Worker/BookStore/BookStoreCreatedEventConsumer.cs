@@ -15,8 +15,7 @@ public sealed class BookStoreCreatedEventConsumer : IBookStoreCreatedEventConsum
 
     public Task<BookStoreEvent> GetBookstore()
     {
-        var message = _bus.consummerAsync();
-        
-        throw new NotImplementedException();
+        var message = _bus.consummerAsync<BookStoreEvent>();
+        return message;
     }
 }

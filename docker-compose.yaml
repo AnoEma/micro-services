@@ -12,3 +12,31 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+
+  micro-services-sql:
+    container_name: Data-Mssql
+    hostname: micro-services-database
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: 'Y'
+      SA_PASSWORD: 'Admin@123'
+      MSSQL_DATA_DIR: /var/opt/mssql/data
+      MSSQL_PID: Developer
+      MSSQL_TCP_PORT: 1433
+    ports:
+      - "1455:1433"
+    volumes:
+      - ./data:/var/opt/mssql/data
+      - ./log:/var/opt/mssql/log
+      - ./secrets:/var/opt/mssql/secrets
+
+  # bookstore-api:
+  #   build: .
+  #   environment:
+  #     DbServer: "micro-services-sql"
+  #     DbPort: "1433"
+  #     DbUser: "SA"
+  #     Password: "Admin@123"
+  #     Database: "bookstore-api-db"
+  #   ports: 
+  #     - "8090:80"

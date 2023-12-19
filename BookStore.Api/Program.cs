@@ -1,3 +1,4 @@
+using BookStore.Api;
 using BookStore.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +8,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<IBookStoreService, BookStoreService>();
+builder.Services.AddModule();
 
 var app = builder.Build();
 
