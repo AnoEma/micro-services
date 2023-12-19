@@ -13,28 +13,24 @@ public class BookStoreRepository : IBookStoreRepository
 
     public async Task Create(BookStoresDTO dto)
     {
+        dto.DateCreated = new DateTimeOffset();
+
         await _context.BookStores.AddAsync(dto);
         await _context.SaveChangesAsync();
     }
 
-    public Task GetAll()
+    public Task<List<BookStoresDTO>> GetAll()
     {
-        var bookstore = _context.BookStores.ToList();
-        if (bookstore.Any())
-        {
-            return Task.FromResult(bookstore);
-        }
-        return Task.CompletedTask;
+        var result = _context.BookStores.ToList();
+
+        return Task.FromResult(result);
     }
 
-    public Task GetById(Guid id)
+    public Task<BookStoresDTO> GetById(Guid id)
     {
-        var bookstore = _context.BookStores.FirstOrDefault(x => x.Id == id);
-        if (bookstore is not null)
-        {
-            return Task.FromResult(result: bookstore);
-        }
-        return Task.CompletedTask;
+        var result = _context.BookStores.FirstOrDefault(x => x.Id == id);
+
+        return Task.FromResult(result);
     }
 
     public async Task Update(BookStoresDTO dto)
@@ -44,6 +40,7 @@ public class BookStoreRepository : IBookStoreRepository
         {
             dto.DateUpdated = DateTime.Now.ToString();
             _context.BookStores.Update(dto);
+            await _context.SaveChangesAsync();
         }
     }
 }

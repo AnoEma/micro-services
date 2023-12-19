@@ -1,7 +1,17 @@
-﻿namespace BookStore.Api.Model;
+﻿using BookStore.Api.Repositories;
+
+namespace BookStore.Api.Model;
 
 public class BookStores
 {
+    public BookStores(BookStoresDTO dto)
+    {
+        Id = dto.Id;
+        Name = dto.Name;
+        CPF = dto.CPF;
+        Address = dto.Address;
+        Books = dto.Books; 
+    }
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string CPF { get; set; } = string.Empty;

@@ -2,8 +2,8 @@
 
 public interface IBookStoreRepository
 {
-    Task GetAll();
-    Task GetById(Guid id);
+    Task<List<BookStoresDTO>> GetAll();
+    Task<BookStoresDTO> GetById(Guid id);
     Task Create(BookStoresDTO dto);
     Task Update(BookStoresDTO dto);
 }

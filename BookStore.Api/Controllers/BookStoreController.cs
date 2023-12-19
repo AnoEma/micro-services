@@ -15,9 +15,31 @@ public class BookStoreController : ControllerBase
         _service = service;
     }
 
-    [HttpGet]
+    [HttpGet("/all")]
     public async Task<ActionResult<List<BookStores>>> GetAllBookStore()
     {
         return await _service.GetAll();
+    }
+
+    [HttpGet("/{id}")]
+    public async Task<ActionResult<BookStores>> GetBookStore(Guid id)
+    {
+        return await _service.GetById(id);
+    }
+
+    [HttpPost("/create")]
+    public async Task<ActionResult> Create([FromBody] BookStores model)
+    {
+         await _service.Create(model);
+
+        return Created();
+    }
+
+    [HttpPost("/update")]
+    public async Task<ActionResult> Update([FromBody] BookStores model)
+    {
+        await _service.Update(model);
+
+        return Accepted();
     }
 }
