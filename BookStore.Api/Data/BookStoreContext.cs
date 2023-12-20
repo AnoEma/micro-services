@@ -5,6 +5,10 @@ namespace BookStore.Api.Data;
 
 public class BookStoreContext : DbContext
 {
+    public BookStoreContext(DbContextOptions options) : base(options)
+    {
+    }
+
     public DbSet<BookStoresDTO> BookStores { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
