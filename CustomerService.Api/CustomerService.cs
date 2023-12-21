@@ -25,6 +25,11 @@ public class CustomerService : ICustomerService
         return result;
     }
 
+    public async Task DeleteCustomer(Guid customerId, CancellationToken cancellation)
+    {
+        await _repository.Delete(customerId);
+    }
+
     public async Task<Customers?> GetCustomerById(Guid id, CancellationToken cancelllation)
     {
         var result = await _repository.GetById(id);
@@ -36,5 +41,21 @@ public class CustomerService : ICustomerService
         }
 
         return result;
+    }
+
+    public async Task<List<Customers>> GetCustomers(CancellationToken cancellation)
+    {
+        var result = await _repository.GetAll();
+        return result;
+    }
+
+    public async Task UpdateCustomer(Customers model, CancellationToken cancellation)
+    {
+        var customer = await _repository.GetById(model.Id);
+
+        if (customer is not null)
+        {
+            await _repository.Update(model);
+        }
     }
 }
