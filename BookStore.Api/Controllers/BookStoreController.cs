@@ -28,7 +28,7 @@ public class BookStoreController : ControllerBase
     }
 
     [HttpPost("/create")]
-    public async Task<ActionResult> Create([FromBody] BookStores model)
+    public async Task<ActionResult> Create([FromQuery] BookStores model)
     {
          await _service.Create(model);
 
@@ -36,7 +36,7 @@ public class BookStoreController : ControllerBase
     }
 
     [HttpPost("/update")]
-    public async Task<ActionResult> Update([FromBody] BookStores model)
+    public async Task<ActionResult> Update([FromQuery] BookStores model)
     {
         await _service.Update(model);
 

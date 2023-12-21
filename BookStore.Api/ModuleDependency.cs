@@ -21,11 +21,11 @@ public static class ModuleDependency
 
     private static void AddServices(IServiceCollection services)
     {
-        services.AddScoped<IBookStoreService, BookStoreService>();
+        services.AddTransient<IBookStoreService, BookStoreService>();
     }
 
     private static void AddRepositories(IServiceCollection services)
     {
-        services.AddScoped<IBookStoreRepository, BookStoreRepository>();
+        services.AddTransient<IBookStoreRepository, BookStoreRepository>();
     }
 }

@@ -6,9 +6,9 @@ namespace BookStore.Api.Services;
 public class BookStoreService : IBookStoreService
 {
     private readonly IBookStoreRepository _repository;
-    private readonly ILogger _logger;
+    private readonly ILogger<BookStoreService> _logger;
 
-    public BookStoreService(IBookStoreRepository repository, ILogger logger)
+    public BookStoreService(IBookStoreRepository repository, ILogger<BookStoreService> logger)
     {
         _repository = repository;
         _logger = logger;
