@@ -1,4 +1,4 @@
-﻿using BookStore.Api.Repositories;
+﻿using BookStore.Api.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Api.Data;
@@ -9,10 +9,10 @@ public class BookStoreContext : DbContext
     {
     }
 
-    public DbSet<BookStoresDTO> BookStores { get; set; }
+    public DbSet<BookStores> BookStores { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<BookStoresDTO>().ComplexProperty(x => x.Books);
+        modelBuilder.Entity<BookStores>().ComplexProperty(x => x.Books);
     }
 }

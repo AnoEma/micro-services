@@ -7,12 +7,12 @@ public static class CustomerEndpoint
 {
     public static void AddEndpoints(WebApplication app)
     {
-        app.MapGet("heath", () =>
+        app.MapGet("api/customer/heath", () =>
         {
             return "ok";
         });
 
-        app.MapGet("api/customer{id}", async (
+        app.MapGet("api/customer/{id}", async (
             [FromRoute] string id,
             [FromServices] ICustomerService services) =>
         {
@@ -22,21 +22,21 @@ public static class CustomerEndpoint
             return result;
         });
 
-        app.MapPost("api/create", async (
+        app.MapPost("api/customer/create", async (
             [FromBody] Customers body,
             [FromServices] ICustomerService services) =>
         {
             await services.CreateCustomer(body, default);
         });
 
-        app.MapPost("api/update", async (
+        app.MapPut("api/customer/update", async (
            [FromBody] Customers body,
            [FromServices] ICustomerService services) =>
         {
             await services.UpdateCustomer(body, default);
         });
 
-        app.MapPost("api/delete/{id}", async (
+        app.MapDelete("api/customer/delete/{id}", async (
            [FromRoute] string id,
            [FromServices] ICustomerService services) =>
         {
@@ -44,7 +44,7 @@ public static class CustomerEndpoint
             await services.DeleteCustomer(customerId, default);
         });
 
-        app.MapGet("api/customers", async (
+        app.MapGet("api/customer/all", async (
             [FromServices] ICustomerService services) =>
         {
             var result = await services.GetCustomers(default);
