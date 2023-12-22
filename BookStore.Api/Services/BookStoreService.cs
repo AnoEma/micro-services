@@ -16,9 +16,7 @@ public class BookStoreService : IBookStoreService
 
     public async Task Create(BookStores entity)
     {
-        var dto = new BookStoresDTO(entity.Name, entity.CPF, entity.Address, entity.Books);
-
-       await _repository.Create(dto);
+       await _repository.Create(entity);
     }
 
     public async Task<List<BookStores>> GetAll()
@@ -42,7 +40,7 @@ public class BookStoreService : IBookStoreService
             _logger.LogInformation("Don't have registre");
             return null;
         }
-        return new BookStores(getBookstore);
+        return getBookstore;
     }
 
     public async Task Update(BookStores entity)
@@ -53,8 +51,6 @@ public class BookStoreService : IBookStoreService
             _logger.LogInformation("Don't have registre");
             return;
         }
-
-        var dto = new BookStoresDTO(entity.Name, entity.CPF, entity.Address, entity.Books);
-        await _repository.Update(dto);
+        await _repository.Update(entity);
     }
 }

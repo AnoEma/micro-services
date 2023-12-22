@@ -3,13 +3,13 @@ using BookStore.Api;
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 builder.Services.AddModule();
 
 var app = builder.Build();
+
+app.AddEndpoints();
 
 if (app.Environment.IsDevelopment())
 {
@@ -17,8 +17,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseAuthorization();
-
-app.MapControllers();
+app.UseHttpsRedirection();
 
 app.Run();

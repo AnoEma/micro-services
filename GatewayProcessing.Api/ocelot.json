@@ -5,21 +5,24 @@
 	},
   "Routes": [
 		{
-			"DownstreamPathTemplate": "/api/Customer",
+			"DownstreamPathTemplate": "/api/customer/{everything}",
 			"DownstreamScheme": "http",
 			"DownstreamHostAndPorts": [
 				{
 					"Host": "localhost",
-					"Port": "5244"
+					"Port": "5263"
 				}
 			],
-			"UpstreamPathTemplate": "/api/Customer",
+			"UpstreamPathTemplate": "/api/customer/{everything}",
 			"UpstreamHttpMethod": [
-				"GET"
+				"GET",
+				"POST",
+				"PUT",
+				"DELETE"
 			]
 		},
 		{
-			"DownstreamPathTemplate": "/api/BookStore",
+			"DownstreamPathTemplate": "/api/bookstore/{everything}",
 			"DownstreamScheme": "http",
 			"DownstreamHostAndPorts": [
 				{
@@ -27,9 +30,12 @@
 					"Port": "5252"
 				}
 			],
-			"UpstreamPathTemplate": "/api/BookStore",
+			"UpstreamPathTemplate": "/api/bookstore/{everything}",
 			"UpstreamHttpMethod": [
-				"GET"
+				"GET",
+				"POST",
+				"PUT",
+				"DELETE"
 			]
 		}
   ]

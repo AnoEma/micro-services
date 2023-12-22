@@ -1,9 +1,11 @@
-﻿namespace BookStore.Api.Repositories;
+﻿using BookStore.Api.Model;
+
+namespace BookStore.Api.Repositories;
 
 public interface IBookStoreRepository
 {
-    Task<List<BookStoresDTO>> GetAll();
-    Task<BookStoresDTO> GetById(Guid id);
-    Task Create(BookStoresDTO dto);
-    Task Update(BookStoresDTO dto);
+    Task<List<BookStores>> GetAll();
+    Task<BookStores> GetById(Guid id);
+    Task Create(BookStores dto);
+    Task Update(BookStores dto);
 }
