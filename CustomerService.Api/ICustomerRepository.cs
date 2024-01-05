@@ -4,9 +4,9 @@ namespace CustomerService.Api;
 
 public interface ICustomerRepository
 {
-    Task Create(Customers dto);
+    Task Create(Customers dto, CancellationToken cancelllation);
     Task Delete(Guid id);
-    Task<Customers> GetById(Guid id);
-    Task<List<Customers>> GetAll();
-    Task Update(Customers dto);
+    Task<Customers> GetById(Guid id, CancellationToken cancellation);
+    Task<List<Customers>> GetAll(CancellationToken cancellation);
+    Task Update(Customers dto, CancellationToken cancellation);
 }

@@ -24,30 +24,34 @@ public static class CustomerEndpoint
 
         app.MapPost("api/customer/create", async (
             [FromBody] Customers body,
-            [FromServices] ICustomerService services) =>
+            [FromServices] ICustomerService services,
+            CancellationToken cancellationToken) =>
         {
-            await services.CreateCustomer(body, default);
+            await services.CreateCustomer(body, cancellationToken);
         });
 
         app.MapPut("api/customer/update", async (
            [FromBody] Customers body,
-           [FromServices] ICustomerService services) =>
+           [FromServices] ICustomerService services,
+           CancellationToken cancellationToken) =>
         {
-            await services.UpdateCustomer(body, default);
+            await services.UpdateCustomer(body, cancellationToken);
         });
 
         app.MapDelete("api/customer/delete/{id}", async (
            [FromRoute] string id,
-           [FromServices] ICustomerService services) =>
+           [FromServices] ICustomerService services,
+           CancellationToken cancellationToken) =>
         {
             var customerId = new Guid(id);
-            await services.DeleteCustomer(customerId, default);
+            await services.DeleteCustomer(customerId, cancellationToken);
         });
 
         app.MapGet("api/customer/all", async (
-            [FromServices] ICustomerService services) =>
+            [FromServices] ICustomerService services,
+            CancellationToken cancellationToken) =>
         {
-            var result = await services.GetCustomers(default);
+            var result = await services.GetCustomers(cancellationToken);
 
             return result;
         });

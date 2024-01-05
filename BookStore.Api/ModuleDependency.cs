@@ -7,16 +7,18 @@ namespace BookStore.Api;
 
 public static class ModuleDependency
 {
-    public static void AddModule(this IServiceCollection services)
+    public static void AddModule(this IServiceCollection services, ConfigurationManager config)
     {
         AddRepositories(services);
         AddServices(services);
-        AddDataContext(services);
+        AddDataContext(services, config);
     }
 
-    private static void AddDataContext(IServiceCollection services)
+    private static void AddDataContext(IServiceCollection services, ConfigurationManager connection)
     {
-        services.AddDbContext<BookStoreContext>(opt => opt.UseInMemoryDatabase("Server=localhost,1455;Database=bookstore-api-db;User ID=sa;Password=Admin@123"));
+        services
+            .AddDbContext<BookStoreContext>(opt => 
+            opt.UseSqlServer(connection.GetConnectionString("BookstoreDataConnection")));
     }
 
     private static void AddServices(IServiceCollection services)

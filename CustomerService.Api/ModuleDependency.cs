@@ -6,11 +6,11 @@ namespace CustomerService.Api;
 
 public static class ModuleDependency
 {
-    public static void AddModule(this IServiceCollection services)
+    public static void AddModule(this IServiceCollection services, ConfigurationManager config)
     {
         AddService(services);
         AddRepository(services);
-        AddContext(services);
+        AddContext(services, config);
     }
 
     private static void AddService(IServiceCollection services)
@@ -23,9 +23,9 @@ public static class ModuleDependency
         services.AddTransient<ICustomerRepository, CustomerRepository>();
     }
 
-    private static void AddContext(IServiceCollection services)
+    private static void AddContext(IServiceCollection services, ConfigurationManager connectionString)
     {
         services.AddDbContext<CustomerContext>(opt => 
-        opt.UseSqlServer("Server=localhost,1455;Database=bookstore-api-db;User ID=sa;Password=Admin@123"));
+        opt.UseSqlServer(connectionString.GetConnectionString("CustomerDataConnection")));
     }
 }

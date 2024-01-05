@@ -23,6 +23,9 @@ public static class WorkerModuleDependency
     {
         services.AddScoped<ICreateBookStoreCommandHandler, CreateBookStoreCommandHandler>();
         services.AddScoped<IBookStoreCreatedEventConsumer, BookStoreCreatedEventConsumer>();
+        services.AddScoped<IBookStoreCreatedEventConsumer, BookStoreCreatedEventConsumer>();
+        services.AddScoped<IBookStoreHttp, BookStoreHttp>();
+        
 
         services.AddScoped<IBookstoreProcessingService, BookstoreProcessingService>();
 

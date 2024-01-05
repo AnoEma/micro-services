@@ -10,9 +10,10 @@ public class BookStoreContext : DbContext
     }
 
     public DbSet<BookStores> BookStores { get; set; }
+    public DbSet<Book> Books { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<BookStores>().ComplexProperty(x => x.Books);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(BookStoreContext).Assembly);
     }
 }
