@@ -4,8 +4,8 @@ namespace BookStore.Api.Repositories;
 
 public interface IBookStoreRepository
 {
-    Task<List<BookStores>> GetAll();
-    Task<BookStores> GetById(Guid id);
-    Task Create(BookStores dto);
-    Task Update(BookStores dto);
+    Task<List<BookStores>> GetAll(CancellationToken cancellation);
+    Task<BookStores> GetById(Guid id, CancellationToken cancellation);
+    Task Create(BookStores dto, CancellationToken cancellation);
+    Task Update(BookStores dto, CancellationToken cancellation);
 }

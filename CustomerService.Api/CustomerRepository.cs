@@ -12,9 +12,9 @@ public class CustomerRepository : ICustomerRepository
         _context = context;
     }
 
-    public async Task Create(Customers dto)
+    public async Task Create(Customers dto, CancellationToken cancelllation)
     {
-        _context.Customers.Add(dto);
+        _context.Add(dto);
         _context.SaveChanges();
     }
 
@@ -26,19 +26,19 @@ public class CustomerRepository : ICustomerRepository
         _context.SaveChanges();
     }
 
-    public Task<Customers> GetById(Guid id)
+    public Task<Customers> GetById(Guid id, CancellationToken cancellation)
     {
         var customer = _context.Customers.FirstOrDefault(x => x.Id == id);
         return Task.FromResult(customer);
     }
 
-    public Task<List<Customers>> GetAll()
+    public Task<List<Customers>> GetAll(CancellationToken cancellation)
     {
         var customer = _context.Customers.ToList();
         return Task.FromResult(customer);
     }
 
-    public async Task Update(Customers dto)
+    public async Task Update(Customers dto, CancellationToken cancellation)
     {
         _context.Customers.Update(dto);
         _context.SaveChanges();

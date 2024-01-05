@@ -15,7 +15,7 @@ public class CustomerService : ICustomerService
 
     public Task CreateCustomer(Customers model, CancellationToken cancelllation)
     {
-        var result = _repository.Create(model);
+        var result = _repository.Create(model, cancelllation);
 
         if (!result.IsCompleted)
         {
@@ -30,9 +30,9 @@ public class CustomerService : ICustomerService
         await _repository.Delete(customerId);
     }
 
-    public async Task<Customers?> GetCustomerById(Guid id, CancellationToken cancelllation)
+    public async Task<Customers?> GetCustomerById(Guid id, CancellationToken cancellation)
     {
-        var result = await _repository.GetById(id);
+        var result = await _repository.GetById(id, cancellation);
 
         if (result is null)
         {
@@ -45,17 +45,17 @@ public class CustomerService : ICustomerService
 
     public async Task<List<Customers>> GetCustomers(CancellationToken cancellation)
     {
-        var result = await _repository.GetAll();
+        var result = await _repository.GetAll(cancellation);
         return result;
     }
 
     public async Task UpdateCustomer(Customers model, CancellationToken cancellation)
     {
-        var customer = await _repository.GetById(model.Id);
+        var customer = await _repository.GetById(model.Id, cancellation);
 
         if (customer is not null)
         {
-            await _repository.Update(model);
+            await _repository.Update(model, cancellation);
         }
     }
 }

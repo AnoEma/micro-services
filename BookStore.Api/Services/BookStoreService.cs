@@ -14,16 +14,16 @@ public class BookStoreService : IBookStoreService
         _logger = logger;
     }
 
-    public async Task Create(BookStores entity)
+    public async Task Create(BookStores entity, CancellationToken cancellation)
     {
-       await _repository.Create(entity);
+       await _repository.Create(entity, cancellation);
     }
 
-    public async Task<List<BookStores>> GetAll()
+    public async Task<List<BookStores>> GetAll(CancellationToken cancellation)
     {
         var result = new List<BookStores>();
         
-        var getBookstores = await  _repository.GetAll();
+        var getBookstores = await  _repository.GetAll(cancellation);
         if(!getBookstores.Any())
         {
             _logger.LogInformation("Don't have bookstore");
@@ -32,9 +32,9 @@ public class BookStoreService : IBookStoreService
         return result;
     }
 
-    public async Task<BookStores> GetById(Guid id)
+    public async Task<BookStores> GetById(Guid id, CancellationToken cancellation)
     {
-        var getBookstore = await _repository.GetById(id);
+        var getBookstore = await _repository.GetById(id, cancellation);
         if(getBookstore is null)
         {
             _logger.LogInformation("Don't have registre");
@@ -43,14 +43,14 @@ public class BookStoreService : IBookStoreService
         return getBookstore;
     }
 
-    public async Task Update(BookStores entity)
+    public async Task Update(BookStores entity, CancellationToken cancellation)
     {
-        var getBookstore = await _repository.GetById(entity.Id);
+        var getBookstore = await _repository.GetById(entity.Id, cancellation);
         if (getBookstore is null)
         {
             _logger.LogInformation("Don't have registre");
             return;
         }
-        await _repository.Update(entity);
+        await _repository.Update(entity, cancellation);
     }
 }

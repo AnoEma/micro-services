@@ -1,11 +1,11 @@
 using BookStore.Api;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var config = builder.Configuration;
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddModule();
+builder.Services.AddModule(config);
 
 var app = builder.Build();
 

@@ -16,32 +16,36 @@ public static class BookStoreEndpoint
 
         app.MapGet("api/bookstore/{id}", async (
             [FromRoute] string id,
-            [FromServices] IBookStoreService services) =>
+            [FromServices] IBookStoreService services,
+            CancellationToken cancellation) =>
         {
             var customerId = new Guid(id);
-            var result = await services.GetById(customerId);
+            var result = await services.GetById(customerId, cancellation);
 
             return result;
         });
 
         app.MapPost("api/bookstore/create", async (
             [FromBody] BookStores body,
-            [FromServices] IBookStoreService services) =>
+            [FromServices] IBookStoreService services,
+            CancellationToken cancellation) =>
         {
-            await services.Create(body);
+            await services.Create(body, cancellation);
         });
 
         app.MapPut("api/bookstore/update", async (
            [FromBody] BookStores body,
-           [FromServices] IBookStoreService services) =>
+           [FromServices] IBookStoreService services,
+           CancellationToken cancellation) =>
         {
-            await services.Update(body);
+            await services.Update(body, cancellation);
         });
 
         app.MapGet("api/bookstore/all", async (
-            [FromServices] IBookStoreService services) =>
+            [FromServices] IBookStoreService services,
+            CancellationToken cancellation) =>
         {
-            var result = await services.GetAll();
+            var result = await services.GetAll(cancellation);
 
             return result;
         });
