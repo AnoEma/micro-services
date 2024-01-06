@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using ClientApp.Views;
+using Microsoft.Extensions.Logging;
 
 namespace ClientApp
 {
@@ -15,8 +16,11 @@ namespace ClientApp
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            builder.Services.AddTransient<CustomerPage>();
+            builder.Services.AddTransient<BookstorePage>();
+
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();

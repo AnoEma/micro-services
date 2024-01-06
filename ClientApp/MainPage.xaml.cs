@@ -1,25 +1,24 @@
-﻿namespace ClientApp
+﻿using ClientApp.Views;
+
+namespace ClientApp
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
-
         public MainPage()
         {
             InitializeComponent();
         }
 
-        private void OnCounterClicked(object sender, EventArgs e)
+        private void OnCustomerClicked(object sender, EventArgs e)
         {
-            count++;
+            var customerPage = Handler.MauiContext.Services.GetService<CustomerPage>();
+            Navigation.PushModalAsync(customerPage);
+        }
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
+        private void OnBookstoreClicked(object sender, EventArgs e)
+        {
+            var bookstorePage = Handler.MauiContext.Services.GetService<BookstorePage>();
+            Navigation.PushModalAsync(bookstorePage);
         }
     }
-
 }
